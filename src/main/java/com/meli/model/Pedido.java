@@ -1,42 +1,29 @@
 package com.meli.model;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class Pedido {
 
-    @NotBlank(message = "El correo electrónico no puede estar en blanco")
-    @Email(message = "Debe ingresar un correo electrónico válido")
-    private String correoElectronico;
+    @NotNull(message = "La latitud no puede ser nula")
+    private Double latitud;
 
-    @NotBlank(message = "La latitud no puede estar en blanco")
-    private String latitud;
+    @NotNull(message = "La longitud no puede ser nula")
+    private Double longitud;
 
-    @NotBlank(message = "La longitud no puede estar en blanco")
-    private String longitud;
-
-    // Getters y Setters
-    public String getCorreoElectronico() {
-        return correoElectronico;
-    }
-
-    public void setCorreoElectronico(String correoElectronico) {
-        this.correoElectronico = correoElectronico;
-    }
-
-    public String getLatitud() {
+    // Getters y setters
+    public Double getLatitud() {
         return latitud;
     }
 
-    public void setLatitud(String latitud) {
+    public void setLatitud(Double latitud) {
         this.latitud = latitud;
     }
 
-    public String getLongitud() {
+    public Double getLongitud() {
         return longitud;
     }
 
-    public void setLongitud(String longitud) {
+    public void setLongitud(Double longitud) {
         this.longitud = longitud;
     }
 }
