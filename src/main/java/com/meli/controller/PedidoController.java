@@ -44,14 +44,14 @@ public class PedidoController {
             RestTemplate restTemplate = new RestTemplate();
             //map para devolver el json lo solicitado
             Map<String, Object> weatherResponse = restTemplate.getForObject(new URI(weatherUrl), Map.class);
+            // Construir el nuevo objeto Map con los campos específicos
+            Map<String, Object> responseToSend = new HashMap<>();
 
             // Obtener el código de pronóstico y texto del pronóstico
             String codigoPronosticoYTexto = getCodigoPronosticoYTexto(weatherResponse);
 
             // Verificar si el JSON de respuesta contiene uno de los códigos de pronóstico
             if (codigoPronosticoYTexto != null) {
-                // Construir el nuevo objeto Map con los campos específicos
-                Map<String, Object> responseToSend = new HashMap<>();
                 responseToSend.put("forecast_code", codigoPronosticoYTexto.split(" ")[0]); // Suponiendo que el código está antes del primer espacio
                 responseToSend.put("forecast_description", codigoPronosticoYTexto.substring(codigoPronosticoYTexto.indexOf(" ") + 1));
                 responseToSend.put("buyer_notification", "True");
@@ -71,9 +71,10 @@ public class PedidoController {
 
                 // Enviar solo los campos específicos como respuesta
                 return ResponseEntity.ok(responseToSend);
+            }else{
+                System.out.println("ENTRO AL ELSE");
+                return ResponseEntity.ok("No envia notificacion");
             }
-
-            return ResponseEntity.ok(weatherResponse);
         } catch (URISyntaxException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al consultar el clima");
