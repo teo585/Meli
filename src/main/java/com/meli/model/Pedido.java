@@ -10,6 +10,9 @@ public class Pedido {
     @NotNull(message = "La longitud no puede ser nula")
     private Double longitud;
 
+    @NotNull(message = "El correo electronico no puede ser nulo")
+    String correoElectronico;
+
     // Getters y setters
     public Double getLatitud() {
         return latitud;
@@ -25,5 +28,13 @@ public class Pedido {
 
     public void setLongitud(Double longitud) {
         this.longitud = longitud;
+    }
+
+    public String getCorreoElectronico() {
+        return correoElectronico;
+    }
+
+    public void setCorreoElectronico(String correoElectronico) {
+        this.correoElectronico = correoElectronico;
     }
 }
