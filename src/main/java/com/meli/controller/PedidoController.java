@@ -1,8 +1,11 @@
 package com.meli.controller;
 
+import com.meli.config.AppConfig;
 import com.meli.model.Pedido;
 import com.meli.service.EmailSender;
 import com.meli.util.CodigosPronosticoUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -24,6 +27,9 @@ public class PedidoController {
 
     private final String WEATHER_API_KEY = "886fb2a9b6c742e297c175059242406"; // Reemplaza con tu API key real
     private final String WEATHER_API_URL = "https://api.weatherapi.com/v1/forecast.json";
+
+    @Autowired
+    private AppConfig appConfig;
 
     @PostMapping("/crear")
     public ResponseEntity<?> crearPedido(@Valid @RequestBody Pedido pedido, BindingResult result) {
@@ -70,9 +76,9 @@ public class PedidoController {
                 System.out.println("body");
                 System.out.println(body);
 
-                // Configurar datos de email
-                String username = "mmorales@novaventa.com";
-                String password = "gnpx xwed zimk upzz\n";
+                // Configurar datos de email desde AppConfig
+                String username = appConfig.getEmailUsername();
+                String password = appConfig.getEmailPassword();
 
                 EmailSender emailSender = new EmailSender(username, password);
 
