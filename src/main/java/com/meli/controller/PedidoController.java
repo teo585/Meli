@@ -2,6 +2,7 @@ package com.meli.controller;
 
 import com.meli.model.Pedido;
 import com.meli.service.EmailSender;
+import com.meli.util.CodigosPronosticoUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -21,18 +22,15 @@ import org.springframework.web.client.RestTemplate;
 @RequestMapping("/api/pedido")
 public class PedidoController {
 
-    private final String WEATHER_API_KEY = "886fb2a9b6c742e297c175059242406"; // Replace with your actual API key
+    private final String WEATHER_API_KEY = "886fb2a9b6c742e297c175059242406"; // Reemplaza con tu API key real
     private final String WEATHER_API_URL = "https://api.weatherapi.com/v1/forecast.json";
-
-    private final List<String> codigosPronostico = List.of("1186", "1189", "1192", "1195");
 
     @PostMapping("/crear")
     public ResponseEntity<?> crearPedido(@Valid @RequestBody Pedido pedido, BindingResult result) {
-        System.out.println("Api respondiendo");
+        System.out.println("API respondiendo");
 
-        // Verificar si hay errores de validación
+        // Verificar errores de validación
         if (result.hasErrors()) {
-            // Construir mensaje de error
             StringBuilder errorMessage = new StringBuilder();
             result.getFieldErrors().forEach(fieldError -> {
                 errorMessage.append(fieldError.getDefaultMessage()).append(". ");
@@ -40,20 +38,21 @@ public class PedidoController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage.toString());
         }
 
-        // Consultar el clima usando la API de weatherapi.com
+        // Consultar clima usando API de weatherapi.com
         try {
             String weatherUrl = buildWeatherApiUrl(pedido.getLatitud(), pedido.getLongitud());
             RestTemplate restTemplate = new RestTemplate();
-            //map para devolver el json lo solicitado
             Map<String, Object> weatherResponse = restTemplate.getForObject(new URI(weatherUrl), Map.class);
-            // Construir el nuevo objeto Map con los campos específicos
+
+            // Construir nuevo objeto Map con campos específicos
             Map<String, Object> responseToSend = new HashMap<>();
 
-            // Obtener el código de pronóstico y texto del pronóstico
+            // Obtener código de pronóstico y texto del pronóstico
             String codigoPronosticoYTexto = getCodigoPronosticoYTexto(weatherResponse);
 
             // Verificar si el JSON de respuesta contiene uno de los códigos de pronóstico
-            if (codigoPronosticoYTexto != null) {
+            if (codigoPronosticoYTexto != null && CodigosPronosticoUtil.contieneCodigo(codigoPronosticoYTexto.split(" ")[0])) {
+                System.out.println("Entrá verificación del json");
                 responseToSend.put("forecast_code", codigoPronosticoYTexto.split(" ")[0]); // Suponiendo que el código está antes del primer espacio
                 responseToSend.put("forecast_description", codigoPronosticoYTexto.substring(codigoPronosticoYTexto.indexOf(" ") + 1));
                 responseToSend.put("buyer_notification", "True");
@@ -71,12 +70,13 @@ public class PedidoController {
                 System.out.println("body");
                 System.out.println(body);
 
-                // Enviar solo los campos específicos como respuesta
+                // Configurar datos de email
                 String username = "mmorales@novaventa.com";
-                String password = "";
+                String password = "gnpx xwed zimk upzz\n";
 
                 EmailSender emailSender = new EmailSender(username, password);
 
+                // Ejemplo de contenido HTML para el correo electrónico
                 String htmlContent = "<!DOCTYPE html>\n" +
                         "<html lang=\"es\">\n" +
                         "<head>\n" +
@@ -146,9 +146,8 @@ public class PedidoController {
                 }
 
                 return ResponseEntity.ok(responseToSend);
-            }else{
-                System.out.println("ENTRO AL ELSE");
-                return ResponseEntity.ok("No envia notificacion");
+            } else {
+                return ResponseEntity.ok("No se envía notificación");
             }
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -168,7 +167,6 @@ public class PedidoController {
     }
 
     private String getCodigoPronosticoYTexto(Map<String, Object> jsonResponse) {
-        // Verificar si el JSON de respuesta contiene el código de pronóstico en el forecastday
         if (jsonResponse.containsKey("forecast")) {
             Map<String, Object> forecast = (Map<String, Object>) jsonResponse.get("forecast");
             if (forecast.containsKey("forecastday")) {
@@ -181,12 +179,12 @@ public class PedidoController {
                             if (condition.containsKey("code") && condition.containsKey("text")) {
                                 Integer code = (Integer) condition.get("code");
                                 String codeString = String.valueOf(code);
-                                if (codigosPronostico.contains(codeString)) {
+                                if (CodigosPronosticoUtil.contieneCodigo(codeString)) {
                                     String text = (String) condition.get("text");
                                     System.out.println("Encontró el código");
                                     System.out.println("Código: " + codeString);
                                     System.out.println("Texto del pronóstico: " + text);
-                                    return "" + codeString + " " + text + ""; // Devuelve el código y el texto del pronóstico
+                                    return codeString + " " + text;
                                 }
                             }
                         }
@@ -194,6 +192,6 @@ public class PedidoController {
                 }
             }
         }
-        return null; // Si no se encuentra ningún código de pronóstico válido
+        return null;
     }
 }
