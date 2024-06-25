@@ -12,10 +12,6 @@ Este proyecto utiliza Gradle 7.1 y Java. A continuación, se describe cómo envi
  
 Para interactuar con la API, debes enviar un JSON con tres atributos a la siguiente URL: http://localhost:8080/api/pedido/crear
 
-
-
-
-
 ### Formato del JSON
 
 El JSON debe tener el siguiente formato:
@@ -40,8 +36,14 @@ curl -X POST http://localhost:8080/api/pedido/crear \
 
 ### Instrucciones Adicionales
 ### Configuración de Gradle: Asegúrate de tener Gradle 7.1 instalado y configurado correctamente en tu sistema.
-###Construcción del Proyecto: Para construir el proyecto, navega a la raíz del proyecto y ejecuta:
+###Construcción del Proyecto: Para construir el proyecto, navega a la raíz del proyecto y ejecuta O EJECUTAR CLASE PRINCIPAL:
 
 gradlew build
 ###Ejecución del Proyecto: Para ejecutar el proyecto, usa:
 gradlew run
+
+
+###IMPORTANTE ENVIO DE CORREO ELECTRONICO
+la configuración para envio de correo electronico se necesita de un correo de gmail y dentro de este generar una contraseña para una aplicación
+se debe configurar en el archivo application.yml
+
