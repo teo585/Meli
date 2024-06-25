@@ -147,7 +147,7 @@ public class PedidoController {
 
                 return ResponseEntity.ok(responseToSend);
             } else {
-                return ResponseEntity.ok("No se envía notificación");
+                return ResponseEntity.ok("No se envía notificación debido a que el código de pronóstico no está en la lista requerida para generarla.");
             }
         } catch (URISyntaxException e) {
             e.printStackTrace();
