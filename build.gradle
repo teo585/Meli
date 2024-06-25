@@ -31,6 +31,10 @@ dependencies {
 
     // Opcional: Dependencia para el manejo de propiedades en el envío de correos
     implementation 'com.sun.mail:smtp:1.6.2'
+
+
+    // Mockito core for mocking dependencies
+    testImplementation 'org.mockito:mockito-core:3.12.4'
 }
 
 test {
