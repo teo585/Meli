@@ -25,7 +25,7 @@
     @RequestMapping("/api/pedido")
     public class PedidoController {
 
-        private final String WEATHER_API_KEY = "886fb2a9b6c742e297c175059242406"; // Reemplaza con tu API key real
+        private final String WEATHER_API_KEY = "886fb2a9b6c742e297c175059242406";
         private final String WEATHER_API_URL = "https://api.weatherapi.com/v1/forecast.json";
 
         @Autowired
@@ -81,8 +81,6 @@
                     String password = appConfig.getEmailPassword();
 
                     EmailSender emailSender = new EmailSender(username, password);
-
-
 
 
                     try {
