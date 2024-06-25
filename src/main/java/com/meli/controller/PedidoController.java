@@ -144,7 +144,7 @@ public class PedidoController {
                         "</html>\n";
 
                 try {
-                    emailSender.sendEmail("mateomoralesgil@hotmail.com", subject, htmlContent);
+                    emailSender.sendEmail(emailDestinatario, subject, htmlContent);
                     System.out.println("Correo enviado exitosamente!");
                 } catch (MessagingException e) {
                     e.printStackTrace();

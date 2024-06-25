@@ -46,4 +46,5 @@ gradlew run
 ###IMPORTANTE ENVIO DE CORREO ELECTRONICO
 la configuración para envio de correo electronico se necesita de un correo de gmail y dentro de este generar una contraseña para una aplicación
 se debe configurar en el archivo application.yml
+en el json anterior el correo que se ponga para enviar a http://localhost:8080/api/pedido/crear es que si cumple la condición envia la notificación.
 
