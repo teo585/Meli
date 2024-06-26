@@ -14,3 +14,9 @@ build/classes/java/main/com/meli/controller/RespuestaGuardadaController.class
 build/classes/java/test/com/meli/service/EmailSenderTest.class
 build/reports/tests/test/classes/com.meli.util.CodigosPronosticoUtilTest.html
 build/reports/tests/test/packages/com.meli.config.html
+build/tmp/compileJava/previous-compilation-data.bin
+build/classes/java/main/com/meli/model/RespuestaGuardada.class
+.gradle/checksums/checksums.lock
+.gradle/buildOutputCleanup/buildOutputCleanup.lock
+.gradle/7.1/fileHashes/fileHashes.lock
+.gradle/7.1/executionHistory/executionHistory.lock

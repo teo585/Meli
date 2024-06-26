@@ -15,7 +15,7 @@ import java.util.List;
 public class RespuestaGuardadaController {
 
     @Autowired
-    private RespuestaGuardadaRegistro respuestaGuardadaRegistro; // Inyecta el registro de respuestas guardadas
+    private RespuestaGuardadaRegistro respuestaGuardadaRegistro;
 
     // Endpoint para consultar todas las respuestas guardadas
     @GetMapping
