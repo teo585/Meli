@@ -2,7 +2,9 @@
 
     import com.meli.config.AppConfig;
     import com.meli.model.Pedido;
+    import com.meli.model.RespuestaGuardada;
     import com.meli.service.EmailSender;
+    import com.meli.service.RespuestaGuardadaRegistro;
     import com.meli.util.CodigosPronosticoUtil;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.beans.factory.annotation.Value;
@@ -31,6 +33,9 @@
         @Autowired
         private AppConfig appConfig;
 
+        @Autowired
+        private RespuestaGuardadaRegistro respuestaGuardadaRegistro; // Inyecta el registro de respuestas guardadas
+
         @PostMapping("/crear")
         public ResponseEntity<?> crearPedido(@Valid @RequestBody Pedido pedido, BindingResult result) {
             System.out.println("API respondiendo");
@@ -53,6 +58,7 @@
                 // Construir nuevo objeto Map con campos específicos
                 Map<String, Object> responseToSend = new HashMap<>();
 
+
                 // Obtener código de pronóstico y texto del pronóstico
                 String codigoPronosticoYTexto = getCodigoPronosticoYTexto(weatherResponse);
 
@@ -68,6 +74,25 @@
                     String subject = "Actualización de entrega de paquete";
                     String body = "Hola! Tenemos programada la entrega de tu paquete para mañana, en la dirección de entrega esperamos un día con "
                             + codigoPronosticoYTexto  + " y por esta razón es posible que tengamos retrasos. Haremos todo a nuestro alcance para cumplir con tu entrega.";
+
+                    // Construir objeto RespuestaGuardada a partir de la respuesta de la API externa
+                    RespuestaGuardada respuestaGuardada = new RespuestaGuardada();
+
+                    String forecastCode = (String) weatherResponse.get("forecast_code");
+                    if (forecastCode == null) {
+                        forecastCode = codigoPronosticoYTexto.split(" ")[0];
+                    }
+                    respuestaGuardada.setForecastCode(forecastCode);
+
+                    String forecastDescription = (String) weatherResponse.get("forecast_description");
+                    if (forecastDescription == null) {
+                        forecastDescription = codigoPronosticoYTexto.substring(codigoPronosticoYTexto.indexOf(" ") + 1);
+                    }
+                    respuestaGuardada.setForecastDescription(forecastDescription);
+                    respuestaGuardada.setForecastCode(forecastCode);
+                    respuestaGuardada.setBuyerNotification("True"); // Puedes establecer esto como verdadero si hay un código de pronóstico
+
+
 
                     System.out.println("emailDestinatario");
                     System.out.println(emailDestinatario);
@@ -90,6 +115,9 @@
                         e.printStackTrace();
                         System.err.println("Error al enviar el correo: " + e.getMessage());
                     }
+
+                    // Guardar respuesta guardada en el registro
+                    respuestaGuardadaRegistro.agregarRespuestaGuardada(respuestaGuardada);
 
                     return ResponseEntity.ok(responseToSend);
                 } else {

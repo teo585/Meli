@@ -6,3 +6,11 @@
 .gradle/7.1/fileHashes/fileHashes.lock
 .gradle/buildOutputCleanup/buildOutputCleanup.lock
 .gradle/checksums/checksums.lock
+.gradle/7.1/executionHistory/executionHistory.bin
+.gradle/7.1/fileHashes/fileHashes.bin
+.gradle/buildOutputCleanup/buildOutputCleanup.lock
+build/classes/java/main/com/meli/controller/PedidoController.class
+build/classes/java/main/com/meli/controller/RespuestaGuardadaController.class
+build/classes/java/test/com/meli/service/EmailSenderTest.class
+build/reports/tests/test/classes/com.meli.util.CodigosPronosticoUtilTest.html
+build/reports/tests/test/packages/com.meli.config.html
