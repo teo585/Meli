@@ -22,7 +22,7 @@ public class EmailSender {
         props.put("mail.smtp.port", "587");
     }
 
-    public void sendEmail(String recipientEmail, String subject, String codigoPronosticoYTexto) throws MessagingException {
+    public void sendEmail(String recipientEmail, String subject, String pronostico) throws MessagingException {
         Session session = Session.getInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(username, password);
@@ -86,7 +86,7 @@ public class EmailSender {
                     "    <div class=\"container\">\n" +
                     "        <h1>Notificación de Entrega</h1>\n" +
                     "        <p>Hola!</p>\n" +
-                    "        <p>Tenemos programada la entrega de tu paquete para mañana, en la dirección de entrega esperamos un día con <span class=\"highlight\">"+codigoPronosticoYTexto+"</span> y por esta razón es posible que tengamos retrasos.</p>\n" +
+                    "        <p>Tenemos programada la entrega de tu paquete para mañana, en la dirección de entrega esperamos un día con <span class=\"highlight\">"+pronostico+"</span> y por esta razón es posible que tengamos retrasos.</p>\n" +
                     "        <p>Haremos todo a nuestro alcance para cumplir con tu entrega.</p>\n" +
                     "        <div class=\"footer\">\n" +
                     "            <p>Gracias por tu comprensión.</p>\n" +

@@ -61,20 +61,20 @@
 
                 // Obtener código de pronóstico y texto del pronóstico
                 String codigoPronosticoYTexto = getCodigoPronosticoYTexto(weatherResponse);
+                String pronostico = codigoPronosticoYTexto.substring(codigoPronosticoYTexto.indexOf(" ") + 1);
 
                 // Verificar si el JSON de respuesta contiene uno de los códigos de pronóstico
                 if (codigoPronosticoYTexto != null && CodigosPronosticoUtil.contieneCodigo(codigoPronosticoYTexto.split(" ")[0])) {
                     System.out.println("Entrá verificación del json");
                     responseToSend.put("forecast_code", codigoPronosticoYTexto.split(" ")[0]); // Suponiendo que el código está antes del primer espacio
-                    responseToSend.put("forecast_description", codigoPronosticoYTexto.substring(codigoPronosticoYTexto.indexOf(" ") + 1));
+                    responseToSend.put("forecast_description", pronostico);
                     responseToSend.put("buyer_notification", "True");
 
+                    System.out.println("descripcion");
+                    System.out.println(codigoPronosticoYTexto.substring(codigoPronosticoYTexto.indexOf(" ") + 1));
                     // Enviar correo electrónico si se encuentra un código de pronóstico
                     String emailDestinatario = pedido.getCorreoElectronico(); // Aquí deberías obtener el email del pedido
                     String subject = "Actualización de entrega de paquete";
-                    String body = "Hola! Tenemos programada la entrega de tu paquete para mañana, en la dirección de entrega esperamos un día con "
-                            + codigoPronosticoYTexto  + " y por esta razón es posible que tengamos retrasos. Haremos todo a nuestro alcance para cumplir con tu entrega.";
-
                     // Construir objeto RespuestaGuardada a partir de la respuesta de la API externa
                     RespuestaGuardada respuestaGuardada = new RespuestaGuardada();
 
@@ -98,8 +98,6 @@
                     System.out.println(emailDestinatario);
                     System.out.println("subject");
                     System.out.println(subject);
-                    System.out.println("body");
-                    System.out.println(body);
 
                     // Configurar datos de email desde AppConfig
                     String username = appConfig.getEmailUsername();
@@ -109,7 +107,7 @@
 
 
                     try {
-                        emailSender.sendEmail(emailDestinatario, subject, codigoPronosticoYTexto);
+                        emailSender.sendEmail(emailDestinatario, subject, pronostico);
                         System.out.println("Correo enviado exitosamente!");
                     } catch (MessagingException e) {
                         e.printStackTrace();
