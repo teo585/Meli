@@ -48,3 +48,10 @@ la configuración para envio de correo electronico se necesita de un correo de g
 se debe configurar en el archivo application.yml
 en el json anterior el correo que se ponga para enviar a http://localhost:8080/api/pedido/crear es que si cumple la condición envia la notificación.
 
+### consultar las notificaciones enviadas 
+
+Para verificar que notificaciones se han envigado con exito solo basta con consumir el siguiente get
+
+http://localhost:8080/api/respuestas-guardadas
+
+Si existen respuesta generadas con exito se van a ir listando en un json resultante 
