@@ -7,7 +7,7 @@ public class RespuestaGuardada {
     private String forecastCode;
     private String forecastDescription;
     private String buyerNotification;
-    private LocalDateTime fechaHoraRegistro; // Nuevo campo para la fecha y hora de registro
+    private LocalDateTime fechaHoraRegistro;
 
     // Constructor
     public RespuestaGuardada(String forecastCode, String forecastDescription, String buyerNotification) {
