@@ -52,6 +52,5 @@ public class RespuestaGuardadaControllerTest {
         assertEquals(respuestas.size(), respuestasDevueltas.size());
         assertEquals(respuesta1.getForecastCode(), respuestasDevueltas.get(0).getForecastCode());
         assertEquals(respuesta2.getForecastDescription(), respuestasDevueltas.get(1).getForecastDescription());
-        // Asegúrate de verificar otros campos según sea necesario
     }
 }
